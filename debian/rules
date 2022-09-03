@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+
+SHELL := /bin/bash
+
+override_dh_autoreconf:
+
+override_dh_auto_configure:
+	dh_auto_configure \
+		-- \
+		PYTHON=/usr/bin/python3 \
+		--enable-static \
+		--with-legacy \
+		--with-python
+
+override_dh_auto_install:
+	make clean
+	sed -i 's?pyexecdir = .*?pyexecdir = /usr/lib/python3/dist-packages?g' Makefile
+	sed -i 's?pythondir = .*?pythondir = /usr/lib/python3/dist-packages?g' Makefile
+	dh_auto_install \
+		--destdir=debian/tmp \
+		-- \
+		PYTHON=/usr/bin/python3 \
+		pyexecdir=/usr/lib/python3/dist-packages \
+		pythondir=/usr/lib/python3/dist-packages
+	rm -rf debian/tmp/usr/lib/python*/*-packages/*.a
+	rm -rf debian/tmp/usr/lib/python*/*-packages/*.la
+	fdupes -qnrps debian/tmp/usr/lib/python*/*-packages
+	mv debian/tmp/usr/share/aclocal/libxml.m4 debian/tmp/usr/share/aclocal/libxml2.m4
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+
+%:
+	dh $@
