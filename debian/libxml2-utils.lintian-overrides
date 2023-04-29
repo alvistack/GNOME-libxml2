@@ -1,0 +1,4 @@
+libxml2-utils: copyright-without-copyright-notice
+libxml2-utils: initial-upload-closes-no-bugs
+libxml2-utils: no-manual-page
+libxml2-utils: zero-byte-file-in-doc-directory
