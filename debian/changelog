@@ -1,0 +1,5 @@
+libxml2 (100:2.13.3-1) UNRELEASED; urgency=medium
+
+  * https://github.com/GNOME/libxml2/releases/tag/v2.13.3
+
+ -- Wong Hoi Sing Edison <hswong3i@pantarei-design.com>  Thu, 25 Jul 2024 16:54:25 +0800
