@@ -83,10 +83,15 @@ cmake_dependent_option(
     "LIBXML2_WITH_REGEXPS;LIBXML2_WITH_SCHEMAS" OFF)
 
 if(LIBXML2_WITH_PYTHON)
-    find_package(Python COMPONENTS Interpreter Development REQUIRED)
-    #set(LIBXML2_PYTHON_INSTALL_DIR ${Python_SITEARCH} CACHE PATH "Python bindings install directory")
-    set(LIBXML2_PYTHON_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/python"
-        CACHE PATH "Python bindings install directory")
+    if(HAVE_UNISTD_H AND HAVE_F_GETFL)
+        find_package(Python COMPONENTS Interpreter Development REQUIRED)
+    else()
+        find_package(Python2 COMPONENTS Interpreter Development REQUIRED)
+        add_library(Python::Python ALIAS Python2::Python)
+        set(Python_EXECUTABLE ${Python2_EXECUTABLE})
+        set(Python_SITEARCH ${Python2_SITEARCH})
+    endif()
+    set(LIBXML2_PYTHON_INSTALL_DIR ${Python_SITEARCH} CACHE PATH "Python bindings install directory")
 endif()
 
 foreach(VARIABLE IN ITEMS WITH_C14N WITH_CATALOG WITH_DEBUG WITH_HTML WITH_HTTP WITH_ICONV WITH_ICU WITH_ISO8859X WITH_LZMA WITH_MODULES WITH_OUTPUT WITH_PATTERN WITH_PUSH WITH_READER WITH_REGEXPS WITH_RELAXNG WITH_SAX1 WITH_SCHEMAS WITH_SCHEMATRON WITH_THREADS WITH_THREAD_ALLOC WITH_VALID WITH_WRITER WITH_XINCLUDE WITH_XPATH WITH_XPTR WITH_ZLIB)
