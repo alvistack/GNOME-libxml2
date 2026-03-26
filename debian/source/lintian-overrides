@@ -1,0 +1,4 @@
+libxml2 source: file-without-copyright-information
+libxml2 source: no-debian-changes
+libxml2 source: not-binnmuable-any-depends-any
+libxml2 source: weak-library-dev-dependency
